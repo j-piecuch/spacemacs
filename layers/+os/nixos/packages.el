@@ -9,7 +9,7 @@
         ))
 
 (defun nixos/post-init-company ()
-  (let ((backends '(company-capf)))
+  (let ((backends '(company-dabbrev-code)))
     (when (configuration-layer/package-used-p 'company-nixos-options)
       (add-to-list 'backends 'company-nixos-options t))
     (eval `(spacemacs|add-company-backends
