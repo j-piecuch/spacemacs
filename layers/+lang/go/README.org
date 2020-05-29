@@ -21,6 +21,7 @@
   - [[#guru][Guru]]
   - [[#auto-completion][Auto-completion]]
   - [[#lsp-backend][LSP backend]]
+    - [[#debugger][Debugger]]
 - [[#working-with-go][Working with Go]]
   - [[#go-commands-start-with-m][Go commands (start with =m=):]]
   - [[#go-guru][Go Guru]]
@@ -41,6 +42,7 @@ This layer adds extensive support for the [[https://golang.org][Go]] programming
 - List packages faster with [[https://github.com/haya14busa/gopkgs][gopkgs]]
 - Fill a structure with default values using the [[https://github.com/davidrjenni/reftools/tree/master/cmd/fillstruct][fillstruct]]
 - LSP backend (see [[#lsp-backend][LSP backend]])
+- Interactive debugger using [[https://github.com/emacs-lsp/dap-mode][dap-mode]]
 
 * Install
 ** Layer
@@ -76,6 +78,7 @@ to get all the goodies of this layer:
 
 #+BEGIN_SRC sh
   GO111MODULE=on go get -v golang.org/x/tools/gopls@latest
+  GO111MODULE=on CGO_ENABLED=0 go get -v -trimpath -ldflags '-s -w' github.com/golangci/golangci-lint/cmd/golangci-lint
   go get -u -v golang.org/x/tools/cmd/godoc
   go get -u -v golang.org/x/tools/cmd/goimports
   go get -u -v golang.org/x/tools/cmd/gorename
@@ -84,7 +87,6 @@ to get all the goodies of this layer:
   go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct
   go get -u -v github.com/fatih/gomodifytags
   go get -u -v github.com/godoctor/godoctor
-  go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
   go get -u -v github.com/haya14busa/gopkgs/cmd/gopkgs
   go get -u -v github.com/josharian/impl
   go get -u -v github.com/mdempsky/gocode
@@ -147,6 +149,21 @@ If you wish to use =golangci-lint=, set the following layer variable to non-nil:
 #+END_SRC
 
 Check [[https://github.com/golangci/golangci-lint][golangci-lint]] and [[https://github.com/weijiangan/flycheck-golangci-lint][flycheck-golangci-lint]] for more details.
+
+Please remember that without properly configured =flycheck-golangci-lint= variables =golangci-lint=
+may not run as expected. The recommended way is to use a =.golangi.yml= in your project.
+But if this is not possible you can also set global command line flags for =golangci-lint=.
+Especially important is the selection of which linters to run and whether to lint test files too.
+
+It may happen from time to time that =golangci-lint= is not able to parse a buffers content
+properly. This normally happens when there are basic errors in the file which prevent more
+complex analytics to run. In this case a set of errors will be shown at the top of the
+current buffer which are not properly parsed by flycheck. Spacemacs still shows basic
+errors in your buffer. When these have been fixed =golangci-lint= will regenerate
+and further diagnostic data will be made available.
+
+When this happens please report a bug to `golangci-lint` they are working hard
+to fix these.
 
 ** Tests
 If you're using =gocheck= or =testify= in your project you can use the
@@ -222,6 +239,9 @@ The backend can be chosen on a per project basis using directory local variables
 #+END_SRC
 
 *Note:* you can easily add a directory local variable with ~SPC f v d~.
+
+*** Debugger
+Using the =dap= layer you'll get access to all the DAP key bindings, see the complete list of key bindings on the [[https://github.com/syl20bnr/spacemacs/tree/develop/layers/%2Btools/dap#key-bindings][dap layer description]].
 
 * Working with Go
 ** Go commands (start with =m=):
