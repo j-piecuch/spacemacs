@@ -1,6 +1,6 @@
 ;;; packages.el --- Org Layer packages File for Spacemacs
 ;;
-;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
@@ -108,7 +108,7 @@
     :commands (orgtbl-mode)
     :init
     (progn
-      (spacemacs|require 'org)
+      (spacemacs|require-when-dumping 'org)
       (setq org-clock-persist-file (concat spacemacs-cache-directory
                                            "org-clock-save.el")
             org-id-locations-file (concat spacemacs-cache-directory
@@ -231,6 +231,7 @@ Will work on both org-mode and any mode that accepts plain html."
         "Tc" 'org-toggle-checkbox
         "Te" 'org-toggle-pretty-entities
         "Ti" 'org-toggle-inline-images
+        "Tn" 'org-num-mode
         "Tl" 'org-toggle-link-display
         "Tt" 'org-show-todo-tree
         "TT" 'org-todo
